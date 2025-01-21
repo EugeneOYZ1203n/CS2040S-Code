@@ -1,3 +1,4 @@
+package PS1;
 ///////////////////////////////////
 // This is the main shift register class.
 // Notice that it implements the ILFShiftRegister interface.

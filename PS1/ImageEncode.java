@@ -1,3 +1,4 @@
+package PS1;
 /**
  * class ImageEncode
  * @author dcsslg

@@ -1,3 +1,4 @@
+package PS1;
 public class HelloWorld {
     static String name = "Eugene Oh";
     static String fav_algorithm = "Quake Fast Inverse Square Root";
