@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Maze {
-    private final static char WALL = '#';
+    private final static char TRUE_WALL = '#';
+    private final static char EMPTY_SPACE = ' ';
 
-	private int rows, columns; // size of the maze
+	private int rows, columns; // size of the maze data file
 	private Room[][] rooms;
 
 	/**
@@ -19,17 +20,6 @@ public class Maze {
 	}
 
 	/**
-	 * Creates a maze consisting of the given grid of rooms.
-	 */
-	Maze(Room[][] rooms) {
-		assert rooms.length > 0;
-
-		this.rooms = rooms;
-		rows = rooms.length * 2 + 1;
-		columns = rooms[0].length * 2 + 1;
-	}
-
-	/**
 	 * Retrieves a room given the row and column (both 0-indexed).
 	 *
 	 * @param row the row index of the room
@@ -37,7 +27,7 @@ public class Maze {
 	 * @return room the room at the requested coordinate
 	 */
 	public Room getRoom(int row, int column) {
-		if (row >= rows || column >= columns || row < 0 || column < 0) {
+		if (row >= getRows() || column >= getColumns() || row < 0 || column < 0) {
 			throw new IllegalArgumentException();
 		}
 
@@ -56,6 +46,22 @@ public class Maze {
 	 */
 	public int getColumns() {
 		return columns / 2;
+	}
+
+	/**
+	 * Given an input character representing a wall, converts it into the value of the wall.
+	 *
+	 * @param input input character representing a wall
+	 * @return value of the wall
+	 */
+	public static int getWallValue(char input) {
+		if (input == TRUE_WALL) {
+			return Integer.MAX_VALUE;
+		} else if (input == EMPTY_SPACE) {
+			return 0;
+		} else {
+			return input;
+		}
 	}
 
 	/**
@@ -94,10 +100,10 @@ public class Maze {
 		for (int i = 1; i < maze.rows - 1; i += 2) {
 			for (int j = 1; j < maze.columns - 1; j += 2) {
 				maze.rooms[i / 2][j / 2] = new Room(
-						input.get(i - 1).charAt(j) == WALL, // north: i-1
-						input.get(i + 1).charAt(j) == WALL, // south: i+1
-						input.get(i).charAt(j + 1) == WALL, // east: j+1
-						input.get(i).charAt(j - 1) == WALL  // west: j-1
+						getWallValue(input.get(i - 1).charAt(j)), // north: i-1
+						getWallValue(input.get(i + 1).charAt(j)), // south: i+1
+						getWallValue(input.get(i).charAt(j + 1)), // east: j+1
+						getWallValue(input.get(i).charAt(j - 1)) // west: j-1
 				);
 			}
 		}
